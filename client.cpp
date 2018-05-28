@@ -7,6 +7,10 @@ Client::Client(QWidget *parent) :
 {
     ui->setupUi(this);
     dataSize = 0;
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setSceneRect(0, 0, 512, 512);
+    ui->graphicsView->setScene(scene);
+    connect(this, SIGNAL(ui->pushButton->clicked();), this, SLOT(gotMessage();));
 }
 
 Client::~Client()
@@ -46,4 +50,34 @@ void Client::on_sendButton_clicked()
     else{
         QMessageBox::information(this, tr("Client"), tr("First choose Picture") );
     }
+}
+
+void Client::gotMessage(uint8_t * bytes, int size){
+    std::cout << "I got message" << std::endl;
+    QByteArray * img = new QByteArray(reinterpret_cast<const char*>(bytes), size);
+
+    QFile file("C:/MyDir/Last_Image.jpg");
+    file.open(QIODevice::WriteOnly);
+    file.write(*img);
+    file.close();
+
+    QPixmap m("C:/MyDir/Last_Image.jpg");
+    scene->setBackgroundBrush(m.scaled(512,512,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->graphicsView->setScene(scene);
+}
+
+void Client::on_pushButton_clicked()
+{
+    int size = dataSize;
+    std::cout << "I got message" << std::endl;
+    QByteArray * img = new QByteArray(reinterpret_cast<const char*>(bytes), size);
+
+    QFile file("C:/MyDir/Last_Image.jpg");
+    file.open(QIODevice::WriteOnly);
+    file.write(*img);
+    file.close();
+
+    QPixmap m("C:/MyDir/Last_Image.jpg");
+    scene->setBackgroundBrush(m.scaled(512,512,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->graphicsView->setScene(scene);
 }
